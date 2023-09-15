@@ -1,0 +1,226 @@
+https://mind.cs.byu.edu/courses/312/
+## Week 1
+## Aug 30 #
+## Sept 1
+	This Fib is X-Levels Deep; 2^x leaves
+	def fib(x):
+		if x < 2 then
+			return x
+		return fib(x-1) + fib(x-2)
+
+	Fib2(x):  Dynamic Programing Approach
+		fib[0] = 0
+		fib[1] = 1
+		for i = 2 to x do
+			fib[i] = fib[i-1] + fib[i-2]
+		return fib[x]
+		
+	Time = #of "elementry Ops" as a function of input length n
+	Space = #of "bits" as a function of input length n
+	
+	Upper Bound
+	BigO(g(n)) = {f(n)|Ǝc,n0>0 s.t. 0<=f(n)<=cg(n), ∀n>n0}
+	Show that f(n) is bounded by cg(n)
+		ex: f(n) 756n^2 +27n + 10003
+			g(n) = n^2
+		let c = 2268; n0 = 4
+	Lower Bound
+	BigΩ(g(n)) = {f(n)|Ǝc,n0>0 s.t. 0<=cg(n)<=f(n), ∀n>n0}
+	BigΘ(g(n)) = {f(n)|Ǝc1,c2,n0>0 s.t. 0<=c1g(n)<=f(n)<=c2g(n), ∀n>n0}
+
+	lim[n=>∞] f(n)/g(n) = {0 then Big0; R = BigΘ; ∞ = BigΩ}
+	
+	
+	Constants Don't Matter!!!
+	n^b E O(n^a) a>=b
+	expo > poly
+	expo base matters; 3^n>2^n
+	poly>log
+	fact>expo
+	log base don't matter	
+#
+#
+## Week 2
+## Sept 7
+## Modular Artithmetic
+	O(n) x O(n^2)
+	
+	Factoring = 10^n = Base^Number of Digits
+#
+## Primality
+	If n is prime then all a (1>=)
+	a^(N-1) = 1 mod N
+	
+	PrimeTest(N)
+		choose num
+		if(a^n-1 = 1 modN then
+			return yes
+		return no
+
+#
+## Mod Expo
+	x^y = y = {0 then 1; even then x^(y/2)^2 mod N; odd then x*(x(y/2))^2 mod N}
+	recurse === log2(y) depth
+	
+	ModExp(x,y,N)
+		if y == 0 return 1
+		z = ModExp(x,y/2,N)
+		if y is even return z^2ModN
+			return xz^2ModN
+	
+#
+#
+## Sept 8
+
+Pick 2 primes p,q let N = pq;
+Choose e relative to (p-1)(q-1)
+Find d such that de==1mod(p-1)(q-1)
+Encrypt message x as x^e mod N = y
+Decrypt code y as y^d mod N = x^(de) modN = x
+
+GenPrime()
+	while TRUE do
+	choose rand n-bit Prime
+	......
+	
+Euclid(a,b) #a>=b>=0 #O(n^3) #Finds GCD
+	if b=0 then return a
+	return Euclid(b,a mod b);
+Extend_Euclid(a,b) #a>=b>=0 #O(n^3) #Finds GCD+If Relative Prime
+	if b = 0 then return 1,0,a;
+	x,y,z = Extend_Euclid(b,a mod b)
+	return (y, x-floor(a/b)y, z);
+	
+This gives (a,b)=>{x,y,z} such that z = ax + by
+
+
+ModDivision: of a modN only exists gcd(a,N) = 1
+				ie. 2&6 fail; 2%7 does. n*2*4%7 = n
+	
+RSA O(n^4) amorized O(n^3)
+
+
+p =7;q=13;N=91[7*13]	1) Pick 2 Primes
+(p-1)(q-1) = 72; 		2) Choose e relative prime to p--&&q--
+e = 5[Pick rand e,usually3]
+d = 29					3)Find d Extend_Euclid(72,e)
+x= 9 so y=81			4)Encrypt x^eModN = y	
+y=81 x=9				5)Decode y as x
+#
+## 
+Geo Series: r^(m+1) -1 / r-1
+f(m) where r<1    O(1)
+f(m) where r = 1  O(m)
+f(m) where r>1    O(2^m)
+
+
+MULTIPLICATION!!!
+x = firsthalf*2^n/2 + back half
+
+so xy = 2^nxLyL + 2^(n/2)
+
+DC MULT:
+n = lenx = leny
+if n =1 then x=y=1 then return 1 else return 0
+return 2^nMUT(xL,yL)+ 2^(n/2)[MULT(xL,yR) + Mult(xR,yL)+MULT(xR,yR)]
+
+Branches=4, depth logn
+Time = n*O(n)=O(n^2) Space = ???
+
+BUT WE CAN ALSO DO 
+return 2^nMUT(xL,yL)+ 2^(n/2)[Mult(xR+xL,yR+yL) - xLyL-xRyR] +MULT(xR,yR)
+### cashe the xLyL and xRyR to reuse, faster
+Time = O(n^1.59) Space = ??
+
+MASTERS THEOREM FOR RECURSIVE DIVIDE AND CONCURE
+T(n) = aT(ceil(n/b)) + O(n^d)
+n = len(input) a = branch factor n/b = reduction factor O(n^d)=pre/post work
+
+work at lvl k = O(n^d)*(a/b^d)^k
+
+T(n) = aT(n/b)+O(n^d)
+	T(n) = {
+		O(n^d) if 1>(a/b^d);
+		O((n^d)logn) if ==;
+		O(n^logb(a)) if 1<(a/b^d)
+	}
+where a=branchFact,n/b=reduFact n^d pre/post wrk
+
+#
+
+## CONVEX HULL
+
+Sort Pts by x values
+Split in 2
+When 1
+Maybe not recursive?
+
+
+!!!!!!!!!! USE DBL LINKED LISTS !!!!!!!!!!!!!!! Try smallest as 1, maybe 1
+
+Pt []
+SlopeOf(this,b)
+cwPt->
+ccwPt->
+
+to sort left side:
+pick leftmost-> get slope of others and sort, [me, lowest, to highest]
+
+FindUpperTanget(L,R):
+	find rightmost pt p in L and leftmost pt q in R
+	temp = line(p,q)
+	done = 0
+	while not done do
+		done = 1
+		while temp is not upperTanget to L do  [min slope]
+			r <- p's counter clockwise neighvot
+			ttemp = line(r,q)
+			p = r
+			done = 0
+		while temp is not upperTanget to R do [max slope]
+			r <- q's clockwise neighbor
+			temp = line(p,r)
+			q = r
+			done = 0
+	return temp
+
+
+#
+
+
+##
+
+Explore(v)
+	visited(v) = true
+	previst(v)
+	foreach edge (v,u) do:
+		if !visited(u):
+			Explore(u)
+	postvist(v)
+	
+DFS
+for all visited = false
+for all v do
+	if !visited:
+		Explore(v)
+		
+		
+BFS: v 
+
+
+#
+#
+
+## Dynamic Programing
+
+Different form of recursion, loads of repeated substeps, fibs, binomiaCoefficents, etc.
+
+Longest Substring --> Find the longest up until the first half, then etc.
+						-->Go back to first in list and compare.
+i: 0 1 2 3 4 5 6
+l: 1 2 1 2 3 1 2
+v: 3 4 1 5 7 2 4
+
+Iterative Improvement!
+
+#
